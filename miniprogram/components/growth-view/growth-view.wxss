@@ -1,0 +1,218 @@
+/* components/growth-view/growth-view.wxss */
+
+.growth-container {
+  padding: 40rpx;
+  background: linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%);
+}
+
+/* 树木展示区域 */
+.tree-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.tree-bg {
+  width: 500rpx;
+  padding: 40rpx;
+  background: linear-gradient(135deg, #fff9e6 0%, #ffe8cc 100%);
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.1);
+}
+
+.ground {
+  position: absolute;
+  bottom: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400rpx;
+  height: 40rpx;
+  background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+  border-radius: 20rpx;
+}
+
+.tree-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.tree-icon {
+  font-size: 120rpx;
+  line-height: 1;
+  margin-bottom: 20rpx;
+  filter: drop-shadow(0 4rpx 12rpx rgba(0, 0, 0, 0.2));
+}
+
+.seed-stage .seed-icon {
+  animation: shake 2s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+.sprout-stage .sprout-icon {
+  animation: grow 2s ease-in-out infinite;
+}
+
+@keyframes grow {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.1) translateY(-10rpx);
+  }
+}
+
+.seedling-stage .seedling-icon,
+.small-tree-stage .small-tree-icon {
+  animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.big-tree-stage .big-tree-icon {
+  animation: strongSway 4s ease-in-out infinite;
+}
+
+@keyframes strongSway {
+  0%, 100% {
+    transform: rotate(-3deg) scale(1);
+  }
+  50% {
+    transform: rotate(3deg) scale(1.02);
+  }
+}
+
+.fruit-tree-stage .fruit-tree-icon {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15rpx);
+  }
+}
+
+.stage-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-top: 16rpx;
+}
+
+/* 进度条 */
+.progress-container {
+  margin-top: 30rpx;
+}
+
+.progress-bar {
+  height: 16rpx;
+  background-color: #e8e8e8;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  transition: width 0.5s ease, background-color 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 成长信息 */
+.growth-info {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.info-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+}
+
+.info-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.info-tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 等级预览 */
+.level-preview {
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.preview-item.active {
+  opacity: 1;
+}
+
+.preview-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.preview-name {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.preview-item.active .preview-name {
+  color: #1890ff;
+  font-weight: bold;
+}

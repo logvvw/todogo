@@ -1,0 +1,134 @@
+/* components/calendar-view/calendar-view.wxss */
+
+.calendar-container {
+  padding: 30rpx;
+}
+
+/* 月份导航 */
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.month-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.nav-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+}
+
+.nav-icon {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 星期标题 */
+.weekdays {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.weekday {
+  flex: 1;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 10rpx 0;
+}
+
+/* 日期网格 */
+.days-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day-item {
+  width: 14.28%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10rpx;
+  border-radius: 12rpx;
+  transition: all 0.2s ease;
+}
+
+.day-item.other-month {
+  opacity: 0.2;
+}
+
+.day-item.today {
+  background-color: #fff7e6;
+}
+
+.day-item.today .day-number {
+  color: #faad14;
+  font-weight: bold;
+}
+
+.day-item.selected {
+  background-color: #1890ff;
+}
+
+.day-item.selected .day-number {
+  color: #fff;
+}
+
+.day-item:active {
+  transform: scale(0.95);
+}
+
+.day-number {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+/* 任务指示器 */
+.task-indicator {
+  position: absolute;
+  bottom: 8rpx;
+}
+
+.dots {
+  display: flex;
+  gap: 4rpx;
+}
+
+.dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background-color: #ff4d4f;
+}
+
+.dot.completed {
+  background-color: #52c41a;
+}
+
+/* 回到今天按钮 */
+.back-today {
+  margin-top: 20rpx;
+  padding: 16rpx;
+  text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 48rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.back-today:active {
+  background-color: #e8e8e8;
+}

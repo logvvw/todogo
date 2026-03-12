@@ -1,0 +1,49 @@
+<!--components/calendar-view/calendar-view.wxml-->
+<view class="calendar-container">
+  <!-- 月份导航 -->
+  <view class="month-nav">
+    <view class="nav-btn" bindtap="onPrevMonth">
+      <text class="nav-icon">◀</text>
+    </view>
+    <view class="month-title">
+      <text>{{year}}年{{month + 1}}月</text>
+    </view>
+    <view class="nav-btn" bindtap="onNextMonth">
+      <text class="nav-icon">▶</text>
+    </view>
+  </view>
+
+  <!-- 星期标题 -->
+  <view class="weekdays">
+    <view class="weekday" wx:for="{{weekdays}}" wx:key="*this">
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 日期网格 -->
+  <view class="days-grid">
+    <view
+      class="day-item {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isToday ? 'today' : ''}} {{item.hasTasks ? 'has-tasks' : ''}} {{item.date === selectedDate ? 'selected' : ''}}"
+      wx:for="{{calendarDays}}"
+      wx:key="date"
+      bindtap="onSelectDate"
+      data-date="{{item.date}}"
+    >
+      <view class="day-number">{{item.day || ''}}</view>
+
+      <!-- 任务指示器 -->
+      <view wx:if="{{item.isCurrentMonth && item.hasTasks}}" class="task-indicator">
+        <view class="dots">
+          <view class="dot {{item.completedTasks > 0 ? 'completed' : ''}}"></view>
+          <view wx:if="{{item.totalTasks > 1}}" class="dot {{item.completedTasks >= item.totalTasks ? 'completed' : ''}}"></view>
+          <view wx:if="{{item.totalTasks > 2}}" class="dot {{item.completedTasks >= item.totalTasks ? 'completed' : ''}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部回到今天按钮 -->
+  <view wx:if="{{!isCurrentMonth}}" class="back-today" bindtap="onBackToday">
+    <text>回到今天</text>
+  </view>
+</view>

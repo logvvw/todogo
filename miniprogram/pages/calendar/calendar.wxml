@@ -1,0 +1,137 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="container">
+  <!-- 日历组件 -->
+  <calendar-view id="calendar" bind:datechange="onDateChange" />
+
+  <!-- 选中日期的任务 -->
+  <view class="tasks-panel">
+    <view class="panel-header">
+      <text class="panel-title">{{selectedDate}}</text>
+      <text class="panel-subtitle" wx:if="{{selectedTasks.length > 0}}">{{selectedTasks.length}} 个任务</text>
+    </view>
+
+    <!-- 任务列表 -->
+    <view class="task-list">
+      <block wx:if="{{selectedTasks.length > 0}}">
+        <view
+          class="task-item {{item.status === 1 ? 'completed' : ''}} priority-{{item.priority}}"
+          wx:for="{{selectedTasks}}"
+          wx:key="id"
+        >
+          <view class="task-checkbox" bindtap="toggleTask" data-id="{{item.id}}">
+            <view class="checkbox {{item.status === 1 ? 'checked' : ''}}">
+              <text wx:if="{{item.status === 1}}" class="check-icon">✓</text>
+            </view>
+          </view>
+          <view class="task-content">
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-desc" wx:if="{{item.description}}">{{item.description}}</view>
+            <view class="task-status" wx:if="{{item.status === 1}}">
+              <text>✓ 已完成</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">📋</text>
+        <text class="empty-text">这一天没有任务</text>
+        <text class="empty-tip">点击下方按钮添加任务</text>
+      </view>
+    </view>
+
+    <!-- 添加任务按钮 -->
+    <view class="add-task-section" wx:if="{{!isToday}}">
+      <view class="add-task-btn" bindtap="addTaskForDate">
+        <text class="add-icon">+</text>
+        <text>为 {{selectedDate}} 添加任务</text>
+      </view>
+    </view>
+
+    <!-- 返回今天按钮 -->
+    <view class="back-today-section" wx:if="{{!isToday}}">
+      <view class="back-today-btn" bindtap="backToToday">
+        <text>查看今天</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 添加任务弹窗 -->
+<view class="modal {{showModal ? 'show' : ''}}" wx:if="{{showModal}}">
+  <view class="modal-mask" bindtap="hideModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">添加任务</text>
+      <view class="modal-close" bindtap="hideModal">×</view>
+    </view>
+
+    <view class="modal-body">
+      <!-- 任务标题 -->
+      <view class="form-item">
+        <input
+          class="input"
+          placeholder="要做什么？"
+          value="{{form.title}}"
+          bindinput="onTitleInput"
+          maxlength="50"
+          focus="{{showModal}}"
+        />
+      </view>
+
+      <!-- 任务描述 -->
+      <view class="form-item">
+        <textarea
+          class="textarea"
+          placeholder="添加备注（可选）"
+          value="{{form.description}}"
+          bindinput="onDescInput"
+          maxlength="200"
+          auto-height
+        />
+      </view>
+
+      <!-- 优先级选择 -->
+      <view class="form-item">
+        <view class="form-label">优先级</view>
+        <view class="priority-selector">
+          <view
+            class="priority-option {{form.priority === 0 ? 'active' : ''}}"
+            bindtap="selectPriority"
+            data-priority="0"
+          >
+            <text>普通</text>
+          </view>
+          <view
+            class="priority-option {{form.priority === 1 ? 'active' : ''}}"
+            bindtap="selectPriority"
+            data-priority="1"
+          >
+            <text>重要</text>
+          </view>
+          <view
+            class="priority-option {{form.priority === 2 ? 'active' : ''}}"
+            bindtap="selectPriority"
+            data-priority="2"
+          >
+            <text>紧急</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 日期显示 -->
+      <view class="form-item">
+        <view class="date-display">
+          <text class="date-label">日期：</text>
+          <text class="date-value">{{form.date}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="modal-footer">
+      <button class="btn btn-default" bindtap="hideModal">取消</button>
+      <button class="btn btn-primary" bindtap="saveTask" disabled="{{!form.title}}">保存</button>
+    </view>
+  </view>
+</view>

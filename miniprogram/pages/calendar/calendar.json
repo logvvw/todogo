@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "calendar-view": "/components/calendar-view/calendar-view"
+  },
+  "navigationBarTitleText": "日历",
+  "enablePullDownRefresh": false
+}

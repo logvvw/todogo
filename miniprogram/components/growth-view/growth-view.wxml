@@ -1,0 +1,71 @@
+<!--components/growth-view/growth-view.wxml-->
+<view class="growth-container">
+  <!-- 成长树展示 -->
+  <view class="tree-display">
+    <view class="tree-bg">
+      <view class="ground"></view>
+      <view class="tree-stage {{levelClass}}">
+        <!-- 种子阶段 -->
+        <view wx:if="{{level === 0}}" class="seed-stage">
+          <text class="tree-icon seed-icon">🌰</text>
+          <text class="stage-label">小种子</text>
+        </view>
+
+        <!-- 发芽阶段 -->
+        <view wx:elif="{{level === 1}}" class="sprout-stage">
+          <text class="tree-icon sprout-icon">🌱</text>
+          <text class="stage-label">发芽啦</text>
+        </view>
+
+        <!-- 幼苗阶段 -->
+        <view wx:elif="{{level === 2}}" class="seedling-stage">
+          <text class="tree-icon seedling-icon">🌿</text>
+          <text class="stage-label">幼苗成长</text>
+        </view>
+
+        <!-- 小树阶段 -->
+        <view wx:elif="{{level === 3}}" class="small-tree-stage">
+          <text class="tree-icon small-tree-icon">🌳</text>
+          <text class="stage-label">长成小树</text>
+        </view>
+
+        <!-- 大树阶段 -->
+        <view wx:elif="{{level === 4}}" class="big-tree-stage">
+          <text class="tree-icon big-tree-icon">🌲</text>
+          <text class="stage-label">参天大树</text>
+        </view>
+
+        <!-- 果树阶段 -->
+        <view wx:else class="fruit-tree-stage">
+          <text class="tree-icon fruit-tree-icon">🍎</text>
+          <text class="stage-label">硕果累累</text>
+        </view>
+      </view>
+
+      <!-- 进度条 -->
+      <view class="progress-container">
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{progressPercent}}%; background: {{config.color}};"></view>
+        </view>
+        <view class="progress-text">
+          <text>{{currentProgress}}/{{maxProgress}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成长信息 -->
+  <view class="growth-info">
+    <view class="info-title">{{config.name}}</view>
+    <view class="info-desc">已完成 {{totalCompleted}} 个任务</view>
+    <view class="info-tip">{{tipText}}</view>
+  </view>
+
+  <!-- 等级预览 -->
+  <view class="level-preview">
+    <view class="preview-item {{item.level <= level ? 'active' : ''}}" wx:for="{{levels}}" wx:key="level">
+      <text class="preview-icon">{{item.icon}}</text>
+      <text class="preview-name">{{item.name}}</text>
+    </view>
+  </view>
+</view>

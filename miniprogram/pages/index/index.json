@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "growth-view": "/components/growth-view/growth-view"
+  },
+  "navigationBarTitleText": "待养成",
+  "enablePullDownRefresh": true
+}

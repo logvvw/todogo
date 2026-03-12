@@ -1,0 +1,365 @@
+/* pages/calendar/calendar.wxss */
+
+page {
+  background-color: #f5f5f5;
+}
+
+.container {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 任务面板 */
+.tasks-panel {
+  padding: 30rpx;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.panel-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.panel-subtitle {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 任务列表 */
+.task-list {
+  min-height: 300rpx;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  border-left: 6rpx solid #d9d9d9;
+  transition: all 0.3s ease;
+}
+
+.task-item.priority-1 {
+  border-left-color: #faad14;
+}
+
+.task-item.priority-2 {
+  border-left-color: #ff4d4f;
+}
+
+.task-item.completed {
+  opacity: 0.6;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.task-checkbox {
+  margin-right: 20rpx;
+}
+
+.checkbox {
+  width: 44rpx;
+  height: 44rpx;
+  border: 3rpx solid #d9d9d9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.checkbox.checked {
+  background-color: #52c41a;
+  border-color: #52c41a;
+}
+
+.check-icon {
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 32rpx;
+  color: #1a1a1a;
+  margin-bottom: 8rpx;
+}
+
+.task-desc {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.task-status {
+  font-size: 24rpx;
+  color: #52c41a;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.empty-tip {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* 添加任务区域 */
+.add-task-section,
+.back-today-section {
+  margin-top: 30rpx;
+}
+
+.add-task-btn,
+.back-today-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 2rpx dashed #d9d9d9;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.add-task-btn {
+  background-color: #1890ff;
+  color: #fff;
+  border-style: solid;
+}
+
+.back-today-btn {
+  background-color: #f5f5f5;
+}
+
+.add-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+/* 弹窗 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.modal.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 30rpx 30rpx 0 0;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.modal-close {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  color: #999;
+}
+
+.modal-body {
+  padding: 30rpx;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.input {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 24rpx;
+  border: 1rpx solid #d9d9d9;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #1890ff;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120rpx;
+  padding: 20rpx 24rpx;
+  border: 1rpx solid #d9d9d9;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.textarea:focus {
+  border-color: #1890ff;
+}
+
+/* 优先级选择器 */
+.priority-selector {
+  display: flex;
+  gap: 16rpx;
+}
+
+.priority-option {
+  flex: 1;
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.priority-option.active {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+  color: #1890ff;
+  font-weight: bold;
+}
+
+/* 日期显示 */
+.date-display {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  background-color: #f5f5f5;
+  border-radius: 12rpx;
+}
+
+.date-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 12rpx;
+}
+
+.date-value {
+  font-size: 30rpx;
+  color: #1890ff;
+  font-weight: bold;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 16rpx;
+  padding: 30rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  border: none;
+}
+
+.btn-default {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.btn-primary {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+}
