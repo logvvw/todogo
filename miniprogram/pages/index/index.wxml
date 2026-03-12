@@ -39,20 +39,9 @@
     </view>
   </view>
 
-  <!-- Tab切换 -->
-  <view class="tab-container">
-    <view class="tab-item {{activeTab === 'tasks' ? 'active' : ''}}" bindtap="switchTab" data-tab="tasks">
-      <text class="tab-icon">📋</text>
-      <text class="tab-label">任务</text>
-    </view>
-    <view class="tab-item {{activeTab === 'memos' ? 'active' : ''}}" bindtap="switchTab" data-tab="memos">
-      <text class="tab-icon">📝</text>
-      <text class="tab-label">备忘</text>
-    </view>
-  </view>
 
   <!-- 任务面板 -->
-  <view class="tab-content {{activeTab === 'tasks' ? 'show' : ''}}">
+  <view class="tasks-panel">
     <!-- 任务列表 -->
     <view class="tasks-section">
       <view class="section-header">
@@ -91,67 +80,6 @@
           <text class="empty-icon">📝</text>
           <text class="empty-text">今天还没有任务</text>
           <text class="empty-tip">点击"添加"创建第一个任务吧</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 备忘面板 -->
-    <view class="tab-content {{activeTab === 'memos' ? 'show' : ''}}">
-    <!-- 备忘列表 -->
-    <view class="memos-section">
-      <view class="section-header">
-        <text class="section-title">我的备忘</text>
-        <view class="add-btn" bindtap="showAddMemoModal">
-          <text class="add-icon">+</text>
-          <text>添加</text>
-        </view>
-      </view>
-
-      <!-- 备忘列表 -->
-      <view class="memo-list">
-        <block wx:if="{{memos.length > 0}}">
-          <view
-            class="memo-card"
-            wx:for="{{memos}}"
-            wx:key="id"
-          >
-            <!-- 备忘内容 -->
-            <view class="memo-content">
-              <text class="memo-text" wx:if="{{item.content}}">{{item.content}}</text>
-
-              <!-- 图片展示 -->
-              <view class="memo-images" wx:if="{{item.images && item.images.length > 0}}">
-                <image
-                  class="memo-image"
-                  src="{{item}}"
-                  wx:for="{{item.images}}"
-                  wx:for-item="img"
-                  wx:for-index="imgIdx"
-                  wx:key="*this"
-                  mode="aspectFill"
-                  bindtap="previewImage"
-                  data-url="{{img}}"
-                  data-urls="{{item.images}}"
-                />
-              </view>
-
-              <!-- 备忘时间和删除 -->
-              <view class="memo-footer">
-                <text class="memo-time">{{item.createdAtFormatted}}</text>
-                <view class="memo-delete" bindtap="deleteMemoItem" data-id="{{item.id}}">
-                  <text class="delete-icon">🗑️</text>
-                </view>
-              </view>
-            </view>
-          </view>
-        </block>
-
-        <!-- 空状态 -->
-        <view class="empty-state" wx:else>
-          <text class="empty-icon">📝</text>
-          <text class="empty-text">还没有备忘</text>
-          <text class="empty-tip">点击"添加"创建第一条备忘吧</text>
         </view>
       </view>
     </view>
@@ -235,51 +163,4 @@
     </view>
   </view>
 
-  <!-- 添加备忘弹窗 -->
-  <view class="modal {{showMemoModal ? 'show' : ''}}" wx:if="{{showMemoModal}}">
-    <view class="modal-mask" bindtap="hideMemoModal"></view>
-    <view class="modal-content memo-modal">
-      <view class="modal-header">
-        <text class="modal-title">添加备忘</text>
-        <view class="modal-close" bindtap="hideMemoModal">×</view>
-      </view>
-
-      <view class="modal-body">
-        <!-- 备忘内容 -->
-        <view class="form-item">
-          <textarea
-            class="textarea memo-textarea"
-            placeholder="写点什么..."
-            value="{{memoForm.content}}"
-            bindinput="onMemoContentInput"
-            maxlength="500"
-            auto-height
-          />
-        </view>
-
-        <!-- 图片选择 -->
-        <view class="form-item">
-          <view class="image-list" wx:if="{{memoForm.images.length > 0}}">
-            <view class="image-item" wx:for="{{memoForm.images}}" wx:for-item="img" wx:key="*this">
-              <image class="image-preview" src="{{img}}" mode="aspectFill" />
-              <view class="image-delete" bindtap="deleteImage" data-index="{{index}}">×</view>
-            </view>
-            <view class="image-item add-image" bindtap="chooseImage" wx:if="{{memoForm.images.length < 9}}">
-              <text class="add-icon">+</text>
-              <text class="add-text">添加图片</text>
-            </view>
-          </view>
-          <view class="add-image-btn" bindtap="chooseImage" wx:else>
-            <text class="btn-icon">📷</text>
-            <text>选择图片</text>
-          </view>
-        </view>
-
-        <view class="modal-footer">
-          <button class="btn btn-default" bindtap="hideMemoModal">取消</button>
-          <button class="btn btn-primary" bindtap="saveMemo">保存</button>
-        </view>
-      </view>
-    </view>
-  </view>
 </view>

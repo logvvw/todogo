@@ -8,24 +8,16 @@ import {
   deleteTodo,
   completeTodo,
   uncompleteTodo,
-  getUserGrowth,
-  getMemos,
-  addMemo,
-  deleteMemo
+  getUserGrowth
 } from '../../utils/storage';
 import { getToday, getWeekdayName } from '../../utils/dateUtils';
-import type { Todo, UserGrowth, Memo } from '../../utils/storage';
+import type { Todo, UserGrowth } from '../../utils/storage';
 
 interface FormData {
   title: string;
   description: string;
   priority: TodoPriority;
   date: string;
-}
-
-interface MemoFormData {
-  content: string;
-  images: string[];
 }
 
 Page({
@@ -37,15 +29,12 @@ Page({
     todayMonth: new Date().getMonth() + 1,
     todayWeekday: getWeekdayName(new Date().getDay()),
     tasks: [] as Todo[],
-    memos: [] as Memo[],
     growthData: null as UserGrowth | null,
     stats: {
       total: 0,
       completed: 0,
       pending: 0
     },
-    // Tab相关
-    activeTab: 'tasks', // 'tasks' | 'memos'
     // 任务弹窗
     showModal: false,
     editingTask: null as Todo | null,
@@ -53,13 +42,7 @@ Page({
       title: '',
       description: '',
       priority: TodoPriority.Low
-    } as FormData,
-    // 备忘弹窗
-    showMemoModal: false,
-    memoForm: {
-      content: '',
-      images: [] as string[]
-    } as MemoFormData
+    } as FormData
   },
 
   /**
@@ -93,7 +76,6 @@ Page({
     const today = getToday();
     const tasks = getTodosByDate(today);
     const growthData = getUserGrowth();
-    const memos = getMemos();
 
     // 统计今日任务
     const stats = {
@@ -104,50 +86,11 @@ Page({
 
     this.setData({
       tasks,
-      memos: this.formatMemoTimes(memos),
       growthData,
       stats,
       todayDay: new Date().getDate(),
       todayMonth: new Date().getMonth() + 1,
       todayWeekday: getWeekdayName(new Date().getDay())
-    });
-  },
-
-  /**
-   * 格式化备忘时间显示
-   */
-  formatMemoTimes(memos: Memo[]) {
-    return memos.map(memo => {
-      return {
-        ...memo,
-        createdAtFormatted: this.formatTime(memo.createdAt)
-      };
-    });
-  },
-
-  /**
-   * 格式化时间
-   */
-  formatTime(timestamp: number): string {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  },
-
-  // ==================== Tab切换 ====================
-
-  /**
-   * 切换Tab
-   */
-  switchTab(e: any) {
-    const tab = e.currentTarget.dataset.tab;
-    this.setData({
-      activeTab: tab
     });
   },
 
@@ -322,139 +265,6 @@ Page({
   goToCalendar() {
     wx.navigateTo({
       url: '/pages/calendar/calendar'
-    });
-  },
-
-  // ==================== 备忘相关 ====================
-
-  /**
-   * 显示添加备忘弹窗
-   */
-  showAddMemoModal() {
-    this.setData({
-      showMemoModal: true,
-      memoForm: {
-        content: '',
-        images: []
-      }
-    });
-  },
-
-  /**
-   * 隐藏备忘弹窗
-   */
-  hideMemoModal() {
-    this.setData({
-      showMemoModal: false
-    });
-  },
-
-  /**
-   * 输入备忘内容
-   */
-  onMemoContentInput(e: any) {
-    this.setData({
-      'memoForm.content': e.detail.value
-    });
-  },
-
-  /**
-   * 选择图片
-   */
-  chooseImage() {
-    const that = this;
-    const currentCount = this.data.memoForm.images ? this.data.memoForm.images.length : 0;
-    wx.chooseImage({
-      count: 9 - currentCount,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success(res) {
-        const tempFilePaths = res.tempFilePaths;
-        const currentImages = that.data.memoForm.images || [];
-        that.setData({
-          'memoForm.images': [...currentImages, ...tempFilePaths]
-        });
-      }
-    });
-  },
-
-  /**
-   * 删除图片
-   */
-  deleteImage(e: any) {
-    const index = e.currentTarget.dataset.index;
-    const images = [...this.data.memoForm.images];
-    images.splice(index, 1);
-    this.setData({
-      'memoForm.images': images
-    });
-  },
-
-  /**
-   * 预览图片
-   */
-  previewImage(e: any) {
-    const url = e.currentTarget.dataset.url;
-    const urls = e.currentTarget.dataset.urls || [url];
-    wx.previewImage({
-      current: url,
-      urls: urls
-    });
-  },
-
-  /**
-   * 保存备忘
-   */
-  saveMemo() {
-    const { memoForm } = this.data;
-
-    // 检查是否有内容
-    const content = memoForm.content || '';
-    const hasContent = content.trim().length > 0;
-    const images = memoForm.images || [];
-    const hasImages = images.length > 0;
-
-    if (!hasContent && !hasImages) {
-      wx.showToast({
-        title: '请添加内容或图片',
-        icon: 'none'
-      });
-      return;
-    }
-
-    addMemo({
-      content: content.trim(),
-      images: images
-    });
-
-    wx.showToast({
-      title: '已添加',
-      icon: 'success'
-    });
-
-    this.hideMemoModal();
-    this.loadData();
-  },
-
-  /**
-   * 删除备忘
-   */
-  deleteMemoItem(e: any) {
-    const id = e.currentTarget.dataset.id;
-
-    wx.showModal({
-      title: '确认删除',
-      content: '确定要删除这条备忘吗？',
-      success: (res) => {
-        if (res.confirm) {
-          deleteMemo(id);
-          wx.showToast({
-            title: '已删除',
-            icon: 'success'
-          });
-          this.loadData();
-        }
-      }
     });
   }
 });

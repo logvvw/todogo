@@ -4,6 +4,11 @@
 .claude
 /openspec/
 PROJECT.md
+OPENSEPC_GUIDE.md
+
+# project
+project.config.json
+project.private.config.json
 
 # dependencies
 /node_modules
