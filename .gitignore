@@ -3,6 +3,7 @@
 # claude
 .claude
 /openspec/
+PROJECT.md
 
 # dependencies
 /node_modules
